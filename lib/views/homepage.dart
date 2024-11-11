@@ -20,7 +20,10 @@ class _HomepageState extends State<Homepage> {
           backgroundColor: Colors.black,
           actions: [
             IconButton(
-              icon: Icon(Icons.info, color: Colors.white,),
+              icon: Icon(
+                Icons.info,
+                color: Colors.white,
+              ),
               onPressed: () {
                 showDialog(
                   barrierDismissible: false,
@@ -29,8 +32,11 @@ class _HomepageState extends State<Homepage> {
                     return AlertDialog(
                       title: Text("Grupo: "),
                       content: Text(
-                        "\nCamila Rolim\nMaria Victória\nEdyllayson Alves ",
-                        style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+                        "\nCamila Rolim\nMaria Victória\nEdyllauson Alves",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       actions: [
                         ElevatedButton(
@@ -41,7 +47,6 @@ class _HomepageState extends State<Homepage> {
                         ),
                       ],
                     );
-
                   },
                 );
               },
@@ -49,11 +54,29 @@ class _HomepageState extends State<Homepage> {
           ],
         ),
         body: Center(
-          child: Text(
-            "Conteúdo Principal",
-            style: TextStyle(fontSize: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Conteúdo Principal",
+                style: TextStyle(fontSize: 24),
+              ),
+              SizedBox(height: 20),
+            ],
           ),
         ),
+        floatingActionButton: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            shape: CircleBorder(), // Define o formato circular
+            padding: EdgeInsets.all(20), // Define o tamanho do círculo
+            backgroundColor: Colors.black, // Cor de fundo
+          ),
+          onPressed: () {
+            // Ação para o botão adicionar
+          },
+          child: Icon(Icons.add, color: Colors.white),
+        ),
+
       ),
     );
   }
