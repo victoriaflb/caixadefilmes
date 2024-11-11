@@ -1,6 +1,6 @@
 # caixadefilmes
 
-A new Flutter project.
+Trabalho de Programação para Dispositivos Móveis
 
 ## Getting Started
 
