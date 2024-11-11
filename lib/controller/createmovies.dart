@@ -1,6 +1,7 @@
 
 
-import '../model/movie.dart';
+
+import '../database/model/movie.dart';
 
 
 class CreateMovies extends Movie {
