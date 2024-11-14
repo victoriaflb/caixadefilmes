@@ -55,6 +55,7 @@ class _HomepageState extends State<Homepage>
     _yearController.clear();
 
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -63,6 +64,7 @@ class _HomepageState extends State<Homepage>
           actions: [
             ElevatedButton(
               onPressed: () {
+                Icon(Icons.info, color: Colors.white);
                 Navigator.pop(context);
               },
               child: Text("OK"),
@@ -84,16 +86,18 @@ class _HomepageState extends State<Homepage>
             title: Text("Filmes",
                 style: TextStyle(
                     color: Colors.white, fontWeight: FontWeight.bold)),
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.black,
             actions: [
               IconButton(
-                icon: Icon(Icons.info_outline),
+                icon: Icon(Icons.info, color: Colors.white),
                 onPressed: () {
                   showDialog(
                     context: context,
+                    barrierDismissible: false,
                     builder: (context) => AlertDialog(
+
                       title: Text("Grupo"),
-                      content: Text("Nome do grupo: CaixadeFilmes"),
+                      content: Text("Camila Rolim\nMaria Victória\nEdyllauson Alves", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
                       actions: [
                         ElevatedButton(
                           onPressed: () {
@@ -109,10 +113,11 @@ class _HomepageState extends State<Homepage>
             ],
             bottom: TabBar(
               controller: _tabController,
+              indicatorColor: Colors.white,
+              labelColor: Colors.white,
               tabs: _controller.movieCategories.keys.map((String category) {
                 return Tab(text: category);
               }).toList(),
-              indicatorColor: Colors.white,
             ),
           ),
           body: TabBarView(
@@ -285,8 +290,11 @@ class _HomepageState extends State<Homepage>
                 },
               );
             },
-            child: Icon(Icons.add),
-            backgroundColor: Colors.blue,
+            child: Icon(Icons.add, color: Colors.white),
+            backgroundColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            )
           ),
         ),
       ),
