@@ -138,7 +138,11 @@ class _HomepageState extends State<Homepage>
                       background: Container(
                         alignment: AlignmentDirectional.centerEnd,
                         color: Colors.red,
-                        child: Icon(Icons.delete, color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: Icon(Icons.delete, color: Colors.white),
+                        ),
+
                       ),
                       onDismissed: (direction) {
                         setState(() {

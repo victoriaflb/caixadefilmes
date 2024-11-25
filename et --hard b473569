@@ -1,0 +1,91 @@
+[33mcommit 7f185beaa42426502fe490999047c449c53326e3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Merge: b473569 7178880
+Author: victoriaflb <victoriwflb@hotmail.com>
+Date:   Wed Nov 13 20:39:59 2024 -0300
+
+    feat: "função deletar e organização do banner"
+
+[33mcommit b473569472ff2d5c8ccf4c6d41d51cd363635c21[m
+Author: victoriaflb <victoriwflb@hotmail.com>
+Date:   Wed Nov 13 20:27:56 2024 -0300
+
+    feat: função deletar e organizar banner
+
+[33mcommit 7178880cbcaf47213379ded60a86364a638eebc7[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Victória <122183830+victoriaflb@users.noreply.github.com>
+Date:   Wed Nov 13 17:25:10 2024 -0300
+
+    Update README.md
+
+[33mcommit b3c587c7e2f74fbc25335a2930ad2881376358c5[m
+Author: Victória <122183830+victoriaflb@users.noreply.github.com>
+Date:   Wed Nov 13 17:24:30 2024 -0300
+
+    Update README.md
+
+[33mcommit 69192d0fed6ddd752b4ff4b2af0d1d6f070915ed[m
+Author: Victória <122183830+victoriaflb@users.noreply.github.com>
+Date:   Wed Nov 13 17:21:51 2024 -0300
+
+    Update README.md
+
+[33mcommit 2c5facfba9e30aa7ef90f86cb692b050817731ae[m
+Author: Victória <122183830+victoriaflb@users.noreply.github.com>
+Date:   Wed Nov 13 17:21:04 2024 -0300
+
+    Update README.md
+
+[33mcommit 0e7bd9feec822370dc328c60cbee5895d1b74b51[m
+Author: Victória <122183830+victoriaflb@users.noreply.github.com>
+Date:   Wed Nov 13 17:17:21 2024 -0300
+
+    Update README.md
+
+[33mcommit 02a6f035a55419d9eb7b3df5f32aeea48633b3da[m
+Author: Edyllauson Maximoff <edyllauson.computerscience@gmail.com>
+Date:   Mon Nov 11 10:56:52 2024 -0300
+
+    Update homepage.dart
+
+[33mcommit a217ca3914e9e5c3d896c5b2a4335e5ef9ae6cd1[m
+Author: victoriaflb <victoriwflb@hotmail.com>
+Date:   Sun Nov 10 22:37:32 2024 -0300
+
+    edit: "database"
+
+[33mcommit 82196dbfd5937baa83707456a7a680972efd4226[m
+Merge: 24d2401 686f571
+Author: victoriaflb <victoriwflb@hotmail.com>
+Date:   Sun Nov 10 22:27:35 2024 -0300
+
+    Merge remote-tracking branch 'origin/master'
+
+[33mcommit 24d2401a99ad986af7256ad119ff56332d3f5820[m
+Author: victoriaflb <victoriwflb@hotmail.com>
+Date:   Sun Nov 10 22:06:36 2024 -0300
+
+    feat: "estrutura do projeto e database"
+
+[33mcommit 0f2f1c17a680cbfbdc1545a483586551d656ecb0[m
+Author: victoriaflb <victoriwflb@hotmail.com>
+Date:   Sun Nov 10 22:04:32 2024 -0300
+
+    feat: "estrutura do projeto e database"
+
+[33mcommit 686f5711350978be5e58f9b5dd5237fb6e04e958[m
+Author: Victória <122183830+victoriaflb@users.noreply.github.com>
+Date:   Wed Nov 6 19:33:55 2024 -0300
+
+    Update README.md
+
+[33mcommit 1c17d1ac3533ec3437ef394940e8c54f42a583c3[m
+Author: victoriaflb <victoriwflb@hotmail.com>
+Date:   Wed Nov 6 19:11:23 2024 -0300
+
+    feat: "paginas e versionamento"
+
+[33mcommit 740bbf421b7ad976983020615805f55664ca37b6[m
+Author: victoriaflb <victoriwflb@hotmail.com>
+Date:   Wed Nov 6 19:09:45 2024 -0300
+
+    feat: "paginas e versionamento"
