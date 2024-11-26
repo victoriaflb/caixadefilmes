@@ -7,8 +7,7 @@ class Homepage extends StatefulWidget {
   State<Homepage> createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage>
-    with SingleTickerProviderStateMixin {
+class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final _controller = CreateMoviesController();
 
@@ -28,12 +27,32 @@ class _HomepageState extends State<Homepage>
   @override
   void initState() {
     super.initState();
-    _tabController =
-        TabController(length: _controller.movieCategories.length, vsync: this);
+    _tabController = TabController(length: _controller.movieCategories.length, vsync: this);
   }
 
   // Método para submeter o formulário
   void _submitForm() {
+    if (_titleController.text.isEmpty || _imageUrlController.text.isEmpty || _genreController.text.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Erro"),
+            content: Text("Preencha todos os campos obrigatórios!"),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
     setState(() {
       _controller.addMovie('Em Alta', {
         'title': _titleController.text,
@@ -41,9 +60,13 @@ class _HomepageState extends State<Homepage>
         'imageUrl': _imageUrlController.text,
         'rating': _score,
         'duration': _durationController.text,
+        'description': _descriptionController.text,
+        'ageRating': _selectedAgeRating,
+        'ano': _yearController.text
       });
     });
 
+    // Limpar os campos
     _idController.clear();
     _imageUrlController.clear();
     _titleController.clear();
@@ -54,6 +77,7 @@ class _HomepageState extends State<Homepage>
     _descriptionController.clear();
     _yearController.clear();
 
+    // Mostrar mensagem de sucesso
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -64,10 +88,59 @@ class _HomepageState extends State<Homepage>
           actions: [
             ElevatedButton(
               onPressed: () {
-                Icon(Icons.info, color: Colors.white);
                 Navigator.pop(context);
               },
               child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // Exibir os detalhes do filme
+  void _exibirDetalhes(BuildContext context, Map<String, dynamic> movie) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(movie['title'], style: TextStyle(fontWeight: FontWeight.bold)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Image.network(movie['imageUrl'], height: 200, fit: BoxFit.cover),
+              SizedBox(height: 10),
+              Text("Gênero: ${movie['genre']}", style: TextStyle(fontSize: 16)),
+              Text("Duração: ${movie['duration']}", style: TextStyle(fontSize: 16)),
+              SizedBox(height: 10),
+              RatingBar.builder(
+                initialRating: movie['rating'],
+                minRating: 1,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemSize: 20.0,
+                itemBuilder: (context, _) => const Icon(Icons.star, color: Colors.amber),
+                onRatingUpdate: (rating) {},
+                ignoreGestures: false,
+              ),
+              Text("${movie['ageRating'] ?? 'Livre'}", style: TextStyle(fontSize: 16)),
+              Text("Ano: ${movie['ano']}", style: TextStyle(fontSize: 16)),
+              SizedBox(height: 10),// Exibe a classificação
+              Text(movie['description'] ?? "Sem descrição disponível.", style: TextStyle(fontSize: 14)),
+              SizedBox(height: 10),
+
+
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Fechar"),
             ),
           ],
         );
@@ -83,9 +156,7 @@ class _HomepageState extends State<Homepage>
         length: _controller.movieCategories.length,
         child: Scaffold(
           appBar: AppBar(
-            title: Text("Filmes",
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold)),
+            title: Text("Filmes", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
             backgroundColor: Colors.black,
             actions: [
               IconButton(
@@ -95,7 +166,6 @@ class _HomepageState extends State<Homepage>
                     context: context,
                     barrierDismissible: false,
                     builder: (context) => AlertDialog(
-
                       title: Text("Grupo"),
                       content: Text("Camila Rolim\nMaria Victória\nEdyllauson Alves", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
                       actions: [
@@ -123,18 +193,15 @@ class _HomepageState extends State<Homepage>
           body: TabBarView(
             controller: _tabController,
             children: _controller.movieCategories.keys.map((String category) {
-              List<Map<String, dynamic>> movies =
-                  _controller.movieCategories[category]!;
+              List<Map<String, dynamic>> movies = _controller.movieCategories[category]!;
               return Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListView.builder(
                   itemCount: movies.length,
                   itemBuilder: (context, index) {
                     var movie = movies[index];
-                    // Function Delete
                     return Dismissible(
-                      key:
-                          Key(movie['title']),
+                      key: Key(movie['title']),
                       background: Container(
                         alignment: AlignmentDirectional.centerEnd,
                         color: Colors.red,
@@ -142,12 +209,10 @@ class _HomepageState extends State<Homepage>
                           padding: const EdgeInsets.only(right: 20.0),
                           child: Icon(Icons.delete, color: Colors.white),
                         ),
-
                       ),
                       onDismissed: (direction) {
                         setState(() {
-                          movies.removeAt(
-                              index);
+                          _controller.removeMovie(category, movie);
                         });
                       },
                       direction: DismissDirection.endToStart,
@@ -160,27 +225,17 @@ class _HomepageState extends State<Homepage>
                               height: 200,
                               width: double.infinity,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(4.0)),
-                                child: Image.network(
-                                  movie['imageUrl'],
-                                  fit: BoxFit.cover,
-                                ),
+                                borderRadius: BorderRadius.vertical(top: Radius.circular(4.0)),
+                                child: Image.network(movie['imageUrl'], fit: BoxFit.cover),
                               ),
                             ),
                             ListTile(
                               contentPadding: EdgeInsets.all(12.0),
-                              title: Text(
-                                movie['title'],
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
+                              title: Text(movie['title'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                      '${movie['genre']} - ${movie['duration']}',
-                                      style: TextStyle(fontSize: 14)),
+                                  Text('${movie['genre']} - ${movie['duration']}', style: TextStyle(fontSize: 14)),
                                   SizedBox(height: 8),
                                   RatingBar.builder(
                                     initialRating: movie['rating'],
@@ -189,12 +244,15 @@ class _HomepageState extends State<Homepage>
                                     allowHalfRating: true,
                                     itemCount: 5,
                                     itemSize: 20.0,
-                                    itemBuilder: (context, index) =>
-                                        Icon(Icons.star, color: Colors.amber),
+                                    itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber),
                                     onRatingUpdate: (rating) {},
                                   ),
+
                                 ],
                               ),
+                              onTap: () {
+                                _exibirDetalhes(context, movie);
+                              },
                             ),
                           ],
                         ),
@@ -212,29 +270,28 @@ class _HomepageState extends State<Homepage>
                 isScrollControlled: true,
                 builder: (context) {
                   return Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
                     child: SingleChildScrollView(
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           children: [
                             TextField(
-                                controller: _titleController,
-                                decoration:
-                                    InputDecoration(labelText: 'Título')),
+                              controller: _titleController,
+                              decoration: InputDecoration(labelText: 'Título'),
+                            ),
                             TextField(
-                                controller: _imageUrlController,
-                                decoration: InputDecoration(
-                                    labelText: 'URL da Imagem')),
+                              controller: _imageUrlController,
+                              decoration: InputDecoration(labelText: 'URL da Imagem'),
+                            ),
                             TextField(
-                                controller: _genreController,
-                                decoration:
-                                    InputDecoration(labelText: 'Gênero')),
+                              controller: _genreController,
+                              decoration: InputDecoration(labelText: 'Gênero'),
+                            ),
                             TextField(
-                                controller: _durationController,
-                                decoration:
-                                    InputDecoration(labelText: 'Duração')),
+                              controller: _durationController,
+                              decoration: InputDecoration(labelText: 'Duração'),
+                            ),
                             DropdownButton<String>(
                               value: _selectedAgeRating,
                               onChanged: (String? newValue) {
@@ -257,34 +314,20 @@ class _HomepageState extends State<Homepage>
                               }).toList(),
                             ),
                             SizedBox(height: 10),
-                            RatingBar.builder(
-                              initialRating: _score,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 30.0,
-                              itemBuilder: (context, index) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              onRatingUpdate: (rating) {
-                                setState(() {
-                                  _score = rating;
-                                });
-                              },
+                            TextField(
+                              controller: _yearController,
+                              decoration: InputDecoration(labelText: 'Ano'),
                             ),
-                            SizedBox(height: 20),
                             TextField(
                               controller: _descriptionController,
                               maxLines: 5,
-                              decoration:
-                                  InputDecoration(labelText: 'Descrição'),
+                              decoration: InputDecoration(
+                                  labelText: 'Descrição'),
                             ),
-                            SizedBox(height: 20),
+                            SizedBox(height: 10),
                             ElevatedButton(
                               onPressed: _submitForm,
-                              child: Text('Cadastrar Filme'),
+                              child: Text("Cadastrar Filme"),
                             ),
                           ],
                         ),
@@ -303,20 +346,5 @@ class _HomepageState extends State<Homepage>
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _idController.dispose();
-    _imageUrlController.dispose();
-    _titleController.dispose();
-    _genreController.dispose();
-    _ageRatingController.dispose();
-    _durationController.dispose();
-    _scoreController.dispose();
-    _descriptionController.dispose();
-    _yearController.dispose();
-    super.dispose();
   }
 }
