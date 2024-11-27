@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:caixadefilmes/views/homepage.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'database/database_helper.dart'; // Certifique-se de importar o DatabaseHelper
+import 'views/homepage.dart';
 
-
-void main() {
-   runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // Certifique-se de inicializar os widgets
+  runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -17,4 +15,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

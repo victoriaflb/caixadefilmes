@@ -32,6 +32,8 @@ dependencies:
     sdk: flutter
   sqflite: ^2.0.0+4
   sqflite_common_ffi: ^2.0.0+3
+  sqflite_common_ffi_web: ^0.1.0
+
 
   path: ^1.8.3
   flutter_rating_bar: ^4.0.0
@@ -46,6 +48,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
