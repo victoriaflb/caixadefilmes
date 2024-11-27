@@ -21,22 +21,8 @@ class Movie {
     required this.descricao,
   });
 
-  // Converte um objeto Movie para um mapa
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'faixaEtaria': faixaEtaria,
-      'duracao': duracao,
-      'pontuacao': pontuacao,
-      'ano': ano,
-      'url': url,
-      'titulo': titulo,
-      'genero': genero,
-      'descricao': descricao,
-    };
-  }
 
-  // Cria um objeto Movie a partir de um mapa
+  // Função para converter um mapa (Map) para um objeto Movie
   factory Movie.fromMap(Map<String, dynamic> map) {
     return Movie(
       id: map['id'],
@@ -49,5 +35,20 @@ class Movie {
       genero: map['genero'],
       descricao: map['descricao'],
     );
+  }
+
+  // Função para converter um objeto Movie para um mapa
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'faixaEtaria': faixaEtaria,
+      'duracao': duracao,
+      'pontuacao': pontuacao,
+      'ano': ano,
+      'url': url,
+      'titulo': titulo,
+      'genero': genero,
+      'descricao': descricao,
+    };
   }
 }

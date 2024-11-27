@@ -31,8 +31,12 @@ dependencies:
   flutter:
     sdk: flutter
   sqflite: ^2.0.0+4
+  sqflite_common_ffi: ^2.0.0+3
+
   path: ^1.8.3
-  flutter_rating_bar: ^4.0.0  # Adicionada a dependência do flutter_rating_bar
+  flutter_rating_bar: ^4.0.0
+  provider: ^6.0.5
+  # Adicionada a dependência do flutter_rating_bar
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
