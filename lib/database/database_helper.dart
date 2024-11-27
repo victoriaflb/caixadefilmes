@@ -1,6 +1,7 @@
 import 'package:caixadefilmes/database/movie_connection.dart';
 import 'package:sqflite/sqflite.dart';
-import 'model/movie.dart';
+import '../model/movie.dart';
+
 
 class MovieDao {
   static Future<int?> insertMovie(Movie movie) async {

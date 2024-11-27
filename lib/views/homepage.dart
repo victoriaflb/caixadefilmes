@@ -1,3 +1,4 @@
+import 'package:caixadefilmes/views/update-homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:caixadefilmes/controller/createmovies.dart';
@@ -105,46 +106,113 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
-          title: Text(movie['title'], style: TextStyle(fontWeight: FontWeight.bold)),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.network(movie['imageUrl'], height: 200, fit: BoxFit.cover),
-              SizedBox(height: 10),
-              Text("Gênero: ${movie['genre']}", style: TextStyle(fontSize: 16)),
-              Text("Duração: ${movie['duration']}", style: TextStyle(fontSize: 16)),
-              SizedBox(height: 10),
-              RatingBar.builder(
-                initialRating: movie['rating'],
-                minRating: 1,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemSize: 20.0,
-                itemBuilder: (context, _) => const Icon(Icons.star, color: Colors.amber),
-                onRatingUpdate: (rating) {},
-                ignoreGestures: false,
-              ),
-              Text("${movie['ageRating'] ?? 'Livre'}", style: TextStyle(fontSize: 16)),
-              Text("Ano: ${movie['ano']}", style: TextStyle(fontSize: 16)),
-              SizedBox(height: 10),// Exibe a classificação
-              Text(movie['description'] ?? "Sem descrição disponível.", style: TextStyle(fontSize: 14)),
-              SizedBox(height: 10),
+          title: Center(
+            child: Text(
+              movie['title'],
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Imagem do filme
+                if (movie['imageUrl'] != null && movie['imageUrl'].isNotEmpty)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network(
+                      movie['imageUrl'],
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                else
+                  Container(
+                    height: 200,
+                    color: Colors.grey.shade300,
+                    child: Center(
+                      child: Icon(
+                        Icons.broken_image,
+                        color: Colors.grey.shade700,
+                        size: 60,
+                      ),
+                    ),
+                  ),
+                SizedBox(height: 20),
 
+                // Gênero e duração
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Gênero: ${movie['genre']}",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      "Duração: ${movie['duration']}",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
 
-            ],
+                // Classificação etária
+                Text(
+                  "Classificação: ${movie['ageRating'] ?? 'Livre'}",
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 10),
+
+                // Ano
+                Text(
+                  "Ano: ${movie['ano']}",
+                  style: TextStyle(fontSize: 16),
+                ),
+                SizedBox(height: 10),
+
+                // Descrição
+                Text(
+                  movie['description'] ?? "Sem descrição disponível.",
+                  style: TextStyle(fontSize: 14),
+                  textAlign: TextAlign.justify,
+                ),
+              ],
+            ),
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text("Fechar"),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Fechar"),
+              ),
             ),
           ],
         );
       },
+    );
+  }
+
+
+  void _editarFilme(BuildContext context, Map<String, dynamic> movie, String category) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => UpdateHomePage(
+          movie: movie,
+          onSave: (updatedMovie) {
+            setState(() {
+              int index = _controller.movieCategories[category]!.indexOf(movie);
+              _controller.movieCategories[category]![index] = {
+                ...movie,
+                ...updatedMovie,
+              };
+            });
+          },
+        ),
+      ),
     );
   }
 
@@ -231,11 +299,17 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
                             ),
                             ListTile(
                               contentPadding: EdgeInsets.all(12.0),
-                              title: Text(movie['title'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                              title: Text(
+                                movie['title'],
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
                               subtitle: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('${movie['genre']} - ${movie['duration']}', style: TextStyle(fontSize: 14)),
+                                  Text(
+                                    '${movie['genre']} - ${movie['duration']}',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
                                   SizedBox(height: 8),
                                   RatingBar.builder(
                                     initialRating: movie['rating'],
@@ -247,12 +321,27 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
                                     itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber),
                                     onRatingUpdate: (rating) {},
                                   ),
-
                                 ],
                               ),
-                              onTap: () {
-                                _exibirDetalhes(context, movie);
-                              },
+                              trailing: PopupMenuButton(
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    value: "details",
+                                    child: const Text("Ver detalhes"),
+                                  ),
+                                  PopupMenuItem(
+                                    value: "edit",
+                                    child: const Text("Editar"),
+                                  ),
+                                ],
+                                onSelected: (value) {
+                                  if (value == "details") {
+                                    _exibirDetalhes(context, movie); // Exibe detalhes
+                                  } else if (value == "edit") {
+                                    _editarFilme(context, movie, category); // Edita o filme
+                                  }
+                                },
+                              ),
                             ),
                           ],
                         ),
@@ -260,6 +349,7 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
                     );
                   },
                 ),
+
               );
             }).toList(),
           ),
