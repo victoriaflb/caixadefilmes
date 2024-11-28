@@ -22,7 +22,7 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
   final _descriptionController = TextEditingController();
   final _yearController = TextEditingController();
 
-  String? _selectedAgeRating = 'Livre';
+String? _selectedAgeRating = "Livre";
   double _score = 0.0;
 
   @override
@@ -411,8 +411,26 @@ class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin
                             TextField(
                               controller: _descriptionController,
                               maxLines: 5,
-                              decoration: InputDecoration(
-                                  labelText: 'Descrição'),
+                              decoration: InputDecoration(labelText: 'Descrição'),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Avaliação",
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            RatingBar.builder(
+                              initialRating: _score,
+                              minRating: 0,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              itemSize: 30.0,
+                              itemBuilder: (context, _) => Icon(Icons.star, color: Colors.amber),
+                              onRatingUpdate: (rating) {
+                                setState(() {
+                                  _score = rating;
+                                });
+                              },
                             ),
                             SizedBox(height: 10),
                             ElevatedButton(

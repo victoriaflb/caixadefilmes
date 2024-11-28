@@ -8,8 +8,6 @@ class MovieDatabase {
       print("Caminho do banco de dados: $path");
       String dbPath = join(path, 'movies1.db');
 
-      // await deleteDatabase(dbPath); // Remova essa linha após testar
-
       Database db = await openDatabase(
         dbPath,
         version: 3, // Alterar versão para testar recriação
