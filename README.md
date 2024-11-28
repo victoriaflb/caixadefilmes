@@ -17,8 +17,7 @@ samples, guidance on mobile development, and a full API reference.
 
 ## 🎥 Demonstração do Projeto
 
-
- https://github.com/user-attachments/assets/a9249c58-75c9-4364-b6c4-0842af4aac91
+https://github.com/user-attachments/assets/a9249c58-75c9-4364-b6c4-0842af4aac91
 
 ## 🤝 Colaboradores
 
